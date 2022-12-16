@@ -1,0 +1,26 @@
+services:
+  mongodb-service:
+    image: localhost:5001/mongoimage
+    container_name: mongodb-service-container
+    ports: 
+      - 27017:27017
+  frontend:
+    image: localhost:5001/frontendimage
+    container_name: frontend-container
+    ports:
+      - 80:80
+  backend:
+    image: localhost:5001/backendimage
+    container_name: backend-container
+    depends_on:
+      - mongodb-service
+    ports:
+      - 5000
+    volumes:
+      - dbvol:/data/db
+networks:
+  mern-network:
+    driver: bridge
+volumes:
+  dbvol:
+    driver: local

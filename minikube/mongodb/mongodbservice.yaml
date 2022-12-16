@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: service
+metadata:
+  name: mongodb-service
+  namespace: exam
+spec:
+  ports:
+    - port: 27017
+      protocol: TCP
+    selector:
+      app: mongo
+    type: ClusterIP

@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Service
+metadata:
+  name: frontend-service
+  namespace: exam
+  labels:
+    app: frontend
+spec:
+  ports:
+    - port: 80
+    targetPort: 80
+    protocol: TCP
+  selector:
+    matchLabels:
+      app: frontend
+  type: LoadBalancer

@@ -1,0 +1,41 @@
+services:
+  registry:
+    image: registry
+    volumes:
+      - ./registry-data:/var/lib/registry
+    ports:
+      - 5001:5000
+  ui:
+    image: joxit/docker-registry-ui:static
+    ports:
+      - 8080:80
+    environment:
+      - REGISTRY_TITLE=MERN downloader registry
+      - REGISTRY_URL=http://registry:5000
+    depends_on:
+      - registry
+  mongodb-service:
+    image: mongo
+    container_name: mongodb-service-container
+    ports: 
+      - 27017:27017
+  frontend:
+    build: ./exam-frontend
+    container_name: frontend-container
+    ports:
+      - 80:80
+  backend:
+    build: ./exam-backend
+    container_name: backend-container
+    depends_on:
+      - mongodb-service
+    ports:
+      - 5000
+    volumes:
+      - dbvol:/data/db
+networks:
+  mern-network:
+    driver: bridge
+volumes:
+  dbvol:
+    driver: local
